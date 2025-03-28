@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <>
-      <h1>인덱스</h1>
+      <h1>ONEBITE CINEMA</h1>
     </>
   );
 }
