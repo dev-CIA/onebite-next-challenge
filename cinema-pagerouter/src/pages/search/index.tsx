@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 
 export default function Page() {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [movies, setMovies] = useState<MovieData[]>([]);
 
   const router = useRouter();
@@ -16,11 +17,14 @@ export default function Page() {
   const fetchSearchMovie = async () => {
     const data = await fetchMovies(q as string);
     setMovies(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchSearchMovie();
   }, [q]);
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <>
