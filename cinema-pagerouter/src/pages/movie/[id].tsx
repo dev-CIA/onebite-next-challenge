@@ -1,19 +1,35 @@
 import style from "./[id].module.css";
 import fetchOneMovie from "@/lib/fetch-one-movie";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { GetServerSidePropsContext, InferGetStaticPropsType } from "next";
+import { useRouter } from "next/router";
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { id: "1" } },
+      { params: { id: "2" } },
+      { params: { id: "3" } },
+    ],
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async (context: GetServerSidePropsContext) => {
   const id = context.params!.id;
-  const book = await fetchOneMovie(Number(id));
-  return { props: { book } };
+  const movie = await fetchOneMovie(Number(id));
+
+  if (!movie) return { notFound: true };
+
+  return { props: { movie } };
 };
 
 export default function Page({
-  book,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  if (!book) return <div>해당 영화가 없습니다.</div>;
+  movie,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter();
+
+  if (router.isFallback) return <div>Loading...</div>;
+  if (!movie) return <div>문제가 발생했습니다. 다시 시도해주세요</div>;
 
   const {
     title,
@@ -24,7 +40,7 @@ export default function Page({
     genres,
     runtime,
     posterImgUrl,
-  } = book;
+  } = movie;
 
   return (
     <div className={style.container}>
