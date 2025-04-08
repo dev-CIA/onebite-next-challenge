@@ -5,6 +5,7 @@ import style from "./index.module.css";
 import fetchMovies from "@/lib/fetch-movies";
 import { MovieData } from "@/types";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Page() {
   const [movies, setMovies] = useState<MovieData[]>([]);
@@ -23,6 +24,19 @@ export default function Page() {
 
   return (
     <>
+      <Head>
+        <title>검색결과 | ONEBITE CINEMA</title>
+        <meta
+          name="description"
+          content="ONEBITE CINEMA의 다양한 영화를 만나보세요."
+        />
+        <meta property="og:title" content="ONEBITE CINEMA" />
+        <meta property="og:image" content="/thumbnail.png" />
+        <meta
+          property="og:description"
+          content="ONEBITE CINEMA의 다양한 영화를 만나보세요."
+        />
+      </Head>
       {movies.length !== 0 ? (
         <div className={style.container}>
           {movies.map((movie) => (
