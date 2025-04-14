@@ -1,18 +1,18 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import style from "./page.module.css";
-import movies from "@/mock/dummy.json";
 import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
 
-export default function Page() {
-  const searchParams = useSearchParams();
-  const q = searchParams.get("q");
-
-  const results = movies.filter((movie: MovieData) => {
-    return movie.title.includes(q as string);
-  });
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { q: string };
+}) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/search?q=${searchParams.q}`,
+    { cache: "force-cache" }
+  );
+  if (!response.ok) return <div>오류가 발생했습니다.</div>;
+  const results: MovieData[] = await response.json();
 
   return (
     <>

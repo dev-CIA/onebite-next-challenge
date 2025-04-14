@@ -1,15 +1,15 @@
-"use client";
-
-import { useParams } from "next/navigation";
 import style from "./page.module.css";
-import movies from "@/mock/dummy.json";
+
 import { MovieData } from "@/types";
 
-export default function Page() {
-  const params = useParams();
-  const { id } = params;
+export default async function Page({ params }: { params: { id: string } }) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/${params.id}`,
+    { cache: "force-cache" }
+  );
+  if (!response.ok) return <div>오류가 발생했습니다.</div>;
 
-  const movie = movies.find((movie: MovieData) => movie.id === Number(id));
+  const movie: MovieData = await response.json();
 
   if (!movie) return <div>문제가 발생했습니다. 다시 시도해주세요</div>;
 
