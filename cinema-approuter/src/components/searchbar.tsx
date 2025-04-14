@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import style from "./searchbar.module.css";
 
 export default function Searchbar() {
   const router = useRouter();
@@ -29,8 +30,13 @@ export default function Searchbar() {
   };
 
   return (
-    <div>
-      <input value={search} onChange={onChangeSearch} onKeyDown={onKeyDown} />
+    <div className={style.searchbar}>
+      <input
+        value={search}
+        onChange={onChangeSearch}
+        onKeyDown={onKeyDown}
+        placeholder="검색어를 입력하세요..."
+      />
       <button onClick={onSubmit}>검색</button>
     </div>
   );

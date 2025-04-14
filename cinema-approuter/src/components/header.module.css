@@ -1,0 +1,10 @@
+.container {
+  height: 60px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.container > a {
+  color: rgb(229, 9, 20);
+  text-decoration: none;
+}
