@@ -5,13 +5,16 @@ import { MovieData } from "@/types";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { q: string };
+  searchParams: Promise<{ q: string }>;
 }) {
+  const { q } = await searchParams;
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/search?q=${searchParams.q}`,
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/search?q=${q}`,
     { cache: "force-cache" }
   );
   if (!response.ok) return <div>오류가 발생했습니다.</div>;
+
   const results: MovieData[] = await response.json();
 
   return (
