@@ -1,3 +1,4 @@
+// import delay from "@/app/utils/delay";
 import style from "./page.module.css";
 import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
@@ -7,6 +8,7 @@ export default async function Page({
 }: {
   searchParams: Promise<{ q: string }>;
 }) {
+  // await delay(1500); 테스트 후 주석처리
   const { q } = await searchParams;
 
   const response = await fetch(
