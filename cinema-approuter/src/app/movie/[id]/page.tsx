@@ -2,9 +2,31 @@ import style from "./page.module.css";
 
 import { MovieData } from "@/types";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/${params.id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie`,
+    { cache: "force-cache" }
+  );
+  if (!response.ok) return [];
+
+  const movies: MovieData[] = await response.json();
+
+  return movies.map((movie) => ({
+    id: movie.id.toString(),
+  }));
+}
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/${id}`,
     { cache: "force-cache" }
   );
   if (!response.ok) return <div>오류가 발생했습니다.</div>;
