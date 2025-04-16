@@ -1,15 +1,12 @@
-// import delay from "@/app/utils/delay";
+import delay from "@/app/utils/delay";
 import style from "./page.module.css";
 import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
+import { Suspense } from "react";
+import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ q: string }>;
-}) {
-  // await delay(1500); 테스트 후 주석처리
-  const { q } = await searchParams;
+async function SearchResult({ q }: { q: string }) {
+  await delay(1500);
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/search?q=${q}`,
@@ -31,5 +28,19 @@ export default async function Page({
         <div>검색 결과가 없습니다.</div>
       )}
     </>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+
+  return (
+    <Suspense key={q || ""} fallback={<BookListSkeleton col={3} row={2} />}>
+      <SearchResult q={q || ""} />
+    </Suspense>
   );
 }

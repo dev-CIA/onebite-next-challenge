@@ -1,8 +1,12 @@
 import style from "./page.module.css";
 import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
+import { Suspense } from "react";
+import delay from "../utils/delay";
+import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 
 async function AllMovies() {
+  await delay(1500);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie`,
     { cache: "force-cache" }
@@ -21,6 +25,7 @@ async function AllMovies() {
 }
 
 async function RecommendMovies() {
+  await delay(3000);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/random`,
     { next: { revalidate: 60 } }
@@ -43,11 +48,15 @@ export default function Home() {
     <div className={style.container}>
       <section>
         <h3>지금 가장 추천하는 영화</h3>
-        <RecommendMovies />
+        <Suspense fallback={<BookListSkeleton col={3} />}>
+          <RecommendMovies />
+        </Suspense>
       </section>
       <section>
         <h3>등록된 모든 영화</h3>
-        <AllMovies />
+        <Suspense fallback={<BookListSkeleton col={5} row={2} />}>
+          <AllMovies />
+        </Suspense>
       </section>
     </div>
   );
