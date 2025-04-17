@@ -1,7 +1,7 @@
-import BookItemSkeleton from "./book-item-skeleton";
-import style from "./book-list-skeleton.module.css";
+import MovieItemSkeleton from "./movie-item-skeleton";
+import style from "./movie-list-skeleton.module.css";
 
-export default function BookListSkeleton({
+export default function MovieListSkeleton({
   col,
   row = 1,
 }: {
@@ -14,7 +14,7 @@ export default function BookListSkeleton({
       style={{ "--grid-col": col } as React.CSSProperties}
     >
       {Array.from({ length: col * row }, (_, idx) => (
-        <BookItemSkeleton key={`book-item-skeleton-${idx}`} />
+        <MovieItemSkeleton key={`movie-item-skeleton-${idx}`} />
       ))}
     </div>
   );

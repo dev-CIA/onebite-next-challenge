@@ -3,7 +3,7 @@ import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
 import { Suspense } from "react";
 import delay from "../utils/delay";
-import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
+import MovieListSkeleton from "@/components/skeleton/movie-list-skeleton";
 
 async function AllMovies() {
   await delay(1500);
@@ -48,13 +48,13 @@ export default function Home() {
     <div className={style.container}>
       <section>
         <h3>지금 가장 추천하는 영화</h3>
-        <Suspense fallback={<BookListSkeleton col={3} />}>
+        <Suspense fallback={<MovieListSkeleton col={3} />}>
           <RecommendMovies />
         </Suspense>
       </section>
       <section>
         <h3>등록된 모든 영화</h3>
-        <Suspense fallback={<BookListSkeleton col={5} row={2} />}>
+        <Suspense fallback={<MovieListSkeleton col={5} row={2} />}>
           <AllMovies />
         </Suspense>
       </section>

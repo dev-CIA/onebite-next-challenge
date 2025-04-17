@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import style from "./review-editor.module.css";
-import { createReviewAction } from "@/app/actions/create-review.action";
+import { createReviewAction } from "@/actions/create-review.action";
 
 export function ReviewEditor({ movieId }: { movieId: string }) {
   const [state, formAction, isPending] = useActionState(

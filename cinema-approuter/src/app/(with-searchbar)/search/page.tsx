@@ -3,7 +3,7 @@ import style from "./page.module.css";
 import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
 import { Suspense } from "react";
-import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
+import MovieListSkeleton from "@/components/skeleton/movie-list-skeleton";
 
 async function SearchResult({ q }: { q: string }) {
   await delay(1500);
@@ -39,7 +39,7 @@ export default async function Page({
   const { q } = await searchParams;
 
   return (
-    <Suspense key={q || ""} fallback={<BookListSkeleton col={3} row={2} />}>
+    <Suspense key={q || ""} fallback={<MovieListSkeleton col={3} row={2} />}>
       <SearchResult q={q || ""} />
     </Suspense>
   );
