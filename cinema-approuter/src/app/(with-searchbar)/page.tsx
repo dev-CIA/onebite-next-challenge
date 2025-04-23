@@ -4,6 +4,7 @@ import { MovieData } from "@/types";
 import { Suspense } from "react";
 import delay from "../utils/delay";
 import MovieListSkeleton from "@/components/skeleton/movie-list-skeleton";
+import { Metadata } from "next";
 
 async function AllMovies() {
   await delay(1500);
@@ -42,6 +43,16 @@ async function RecommendMovies() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "한입 시네마",
+  description: "한입 북스에 등록된 도서를 만나보세요.",
+  openGraph: {
+    title: "한입 북스",
+    description: "한입 북스에 등록된 도서를 만나보세요.",
+    images: ["/thumbnail.png"],
+  },
+};
 
 export default function Home() {
   return (

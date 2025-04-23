@@ -2,8 +2,37 @@ import { ReviewEditor } from "@/components/review-editor";
 import style from "./page.module.css";
 import { MovieData, ReviewData } from "@/types";
 import ReviewItem from "@/components/review-item";
+import Image from "next/image";
+import { Metadata } from "next";
 
 export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/${id}`,
+    { cache: "force-cache" }
+  );
+
+  if (!response.ok) throw new Error(response.statusText);
+
+  const movie: MovieData = await response.json();
+
+  return {
+    title: `${movie.title} - 한입시네마`,
+    description: `${movie.description}`,
+    openGraph: {
+      title: `${movie.title} - 한입시네마`,
+      description: `${movie.description}`,
+      images: [movie.posterImgUrl],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const response = await fetch(
@@ -47,7 +76,12 @@ async function MovieDetail({ movieId }: { movieId: string }) {
         className={style.cover_img_container}
         style={{ backgroundImage: `url('${posterImgUrl}')` }}
       >
-        <img src={posterImgUrl} />
+        <Image
+          src={posterImgUrl}
+          alt={`영화 ${title}의 포스터 이미지`}
+          width={245}
+          height={350}
+        />
       </div>
       <div className={style.title}>{title}</div>
       <div className={style.info}>

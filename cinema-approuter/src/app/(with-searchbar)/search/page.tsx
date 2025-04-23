@@ -4,6 +4,25 @@ import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
 import { Suspense } from "react";
 import MovieListSkeleton from "@/components/skeleton/movie-list-skeleton";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}): Promise<Metadata> {
+  const { q } = await searchParams;
+
+  return {
+    title: `${q} : 한입시네마 검색`,
+    description: `${q}에 대한 검색 결과입니다.`,
+    openGraph: {
+      title: `${q} : 한입시네마 검색`,
+      description: `${q}에 대한 검색 결과입니다.`,
+      images: ["/thumbnail.png"],
+    },
+  };
+}
 
 async function SearchResult({ q }: { q: string }) {
   await delay(1500);
