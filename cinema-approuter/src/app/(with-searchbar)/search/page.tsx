@@ -1,4 +1,3 @@
-import delay from "@/app/utils/delay";
 import style from "./page.module.css";
 import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
@@ -25,8 +24,6 @@ export async function generateMetadata({
 }
 
 async function SearchResult({ q }: { q: string }) {
-  await delay(1500);
-
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_API_URL}/movie/search?q=${q}`,
     { cache: "force-cache" }

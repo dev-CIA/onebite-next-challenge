@@ -5,8 +5,6 @@ import ReviewItem from "@/components/review-item";
 import Image from "next/image";
 import { Metadata } from "next";
 
-export const dynamicParams = false;
-
 export async function generateMetadata({
   params,
 }: {
